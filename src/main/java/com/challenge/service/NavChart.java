@@ -1,5 +1,7 @@
 package com.challenge.service;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -10,24 +12,42 @@ import com.challenge.model.Satellite;
 public class NavChart {
 
 	public static final double EPSILON = 0.001;
+	
+	public static boolean evaluateDistances(Map<String, Satellite> satelites) {
+		return NavChart.checkDistances(satelites.get("kenobi"), satelites.get("skywalker"))
+				&& NavChart.checkDistances(satelites.get("kenobi"), satelites.get("sato"))
+				&& NavChart.checkDistances(satelites.get("sato"), satelites.get("skywalker"));
+	}
+
+	private static boolean checkDistances(Satellite satA, Satellite satB) {
+		boolean result = true;
+		double distance = NavChart.distanceSpaceships(satA, satB);
+
+		// Not in the same center?
+		result &= (distance > 0);
+
+		// Are not too far?
+		result &= (NavChart.round(satA.getDistance() + satB.getDistance()) > distance);
+
+		// Intersection exists?
+		result &= (Math.abs(NavChart.round(satA.getDistance() - satB.getDistance())) <= distance);
+
+		return result;
+	}
 
 	public static double distanceSpaceships(ISpaceship shipA, ISpaceship shipB) {
 
 		return NavChart.round(Math.hypot(Math.abs(shipA.getPosition()[0] - shipB.getPosition()[0]),
 				Math.abs(shipA.getPosition()[1] - shipB.getPosition()[1])));
-
 	}
 
 	/**
-	 * Based on http://paulbourke.net/geometry/circlesphere/ "Intersection of two
-	 * circles"
+	 * Based on http://paulbourke.net/geometry/circlesphere/ "Intersection of two circles"
 	 */
-	public static double[] intersectTwoMessages(Satellite satA, Satellite satB) {
+	public static double[] intersectTwoSignals(Satellite satA, Satellite satB) {
 		double distanceSatASatB = NavChart.distanceSpaceships(satA, satB);
 		double a = NavChart.calcA(satA, satB, distanceSatASatB);
-
 		double[] p2 = NavChart.calcP2(satA, satB, distanceSatASatB, a);
-
 		double[] p3 = NavChart.calcP3(satA, satB, distanceSatASatB, a, p2);
 
 		return p3;
@@ -105,10 +125,6 @@ public class NavChart {
 			return optD;
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to determinate Imperial Ship position");
-//			throw new Exception("Unable to determinate Imperial Ship Position");
-//			System.out.println("Se salio de NavChart.evaluateP3");
-//			// TODO: Launch exception
-//			return null;
 		}
 	}
 

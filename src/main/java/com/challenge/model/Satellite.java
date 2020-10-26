@@ -2,11 +2,22 @@ package com.challenge.model;
 
 import java.util.List;
 
+//import io.swagger.annotations.ApiModel;
+//import io.swagger.annotations.ApiModelProperty;
+
+//@ApiModel("Model Satellite")
 public class Satellite implements ISpaceship {
 
+//	@ApiModelProperty(value = "Satelllite's name", required = true)
 	private String name;
+	
+//	@ApiModelProperty(value = "Satelllite's position", required = false)
 	private double[] position;
+	
+//	@ApiModelProperty(value = "Received message", required = true)
 	private List<String> receivedMessage;
+	
+//	@ApiModelProperty(value = "Distance", required = true)
 	private double distance;
 
 	public Satellite(String name, double posX, double posY) {

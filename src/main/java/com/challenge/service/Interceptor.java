@@ -1,47 +1,24 @@
 package com.challenge.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.challenge.model.ImperialShip;
 import com.challenge.model.Satellite;
 
 public class Interceptor {
 
-	public boolean evaluateDistances(Map<String, Satellite> satelites) {
-		return this.checkDistances(satelites.get("kenobi"), satelites.get("skywalker"))
-				&& this.checkDistances(satelites.get("kenobi"), satelites.get("sato"))
-				&& this.checkDistances(satelites.get("sato"), satelites.get("skywalker"));
-	}
-
-	private boolean checkDistances(Satellite satA, Satellite satB) {
-		boolean result = true;
-		double distance = NavChart.distanceSpaceships(satA, satB);
-
-		// Not in the same center?
-		result &= (distance > 0);
-
-		// Are not too far?
-		result &= (NavChart.round(satA.getDistance() + satB.getDistance()) > distance);
-
-		// Intersection exists?
-		result &= (Math.abs(NavChart.round(satA.getDistance() - satB.getDistance())) <= distance);
-
-		return result;
-	}
-
 	public ImperialShip findImperialShip(Map<String, Satellite> satelites) {
-		double[] p3 = NavChart.intersectTwoMessages(satelites.get("sato"), satelites.get("kenobi"));
+		double[] p3 = NavChart.intersectTwoSignals(satelites.get("sato"), satelites.get("kenobi"));
 		ImperialShip imperialShip = NavChart.evaluateP3(p3, satelites.get("skywalker"));
 		return imperialShip;
 	}
 
 	public String discoverMessage(Map<String, Satellite> satellites) {
-//		for (Map.Entry<String, Satellite> entry : satellites.entrySet()) {
-//			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-//		}
 		String msg = "";
 
 		List<String> msgKenobi = satellites.get("kenobi").getReceivedMessage();
@@ -63,8 +40,7 @@ public class Interceptor {
 			} else if (!msgSato.get(i).isEmpty()) {
 				msg += msgSato.get(i);
 			} else {
-				// TODO: Launch exception
-				System.out.println("No se puede determinar el mensaje");
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to determinate Imperial Ship message");
 			}
 
 			if (i < (minLen - 1)) {
