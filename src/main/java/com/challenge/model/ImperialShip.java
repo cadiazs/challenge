@@ -1,9 +1,18 @@
 package com.challenge.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("Imperial ship")
 public class ImperialShip implements ISpaceship {
 
+	@ApiModelProperty(value = "Imperial Ship assigned name", required = true)
 	private String name;
+	
+	@ApiModelProperty(value = "Spatial coordinates [X,Y]", required = true)
 	private double[] position;
+	
+	@ApiModelProperty(value = "Message emitted", required = false)
 	private String message;
 
 	public ImperialShip(String name, double posX, double posY) {

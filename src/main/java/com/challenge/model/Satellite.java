@@ -1,23 +1,35 @@
 package com.challenge.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-//import io.swagger.annotations.ApiModel;
-//import io.swagger.annotations.ApiModelProperty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-//@ApiModel("Model Satellite")
+import io.swagger.annotations.ApiModel;
+
+@Entity
+@ApiModel("Satellite")
 public class Satellite implements ISpaceship {
 
-//	@ApiModelProperty(value = "Satelllite's name", required = true)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
+	private Integer id;
+	
+	@Column
 	private String name;
 	
-//	@ApiModelProperty(value = "Satelllite's position", required = false)
+	@Column
 	private double[] position;
 	
-//	@ApiModelProperty(value = "Received message", required = true)
-	private List<String> receivedMessage;
+	@Column
+	private ArrayList<String> receivedMessage;
 	
-//	@ApiModelProperty(value = "Distance", required = true)
+	@Column
 	private double distance;
 
 	public Satellite(String name, double posX, double posY) {
@@ -43,7 +55,7 @@ public class Satellite implements ISpaceship {
 	}
 
 	public void setReceivedMessage(List<String> receivedMessage) {
-		this.receivedMessage = receivedMessage;
+		this.receivedMessage = new ArrayList<String>(receivedMessage);
 	}
 
 	public double getDistance() {
