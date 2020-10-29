@@ -24,7 +24,7 @@ public class RestController {
 	@Autowired
 	private EntryMessageDAO entryMessageDAO;
 	
-	@GetMapping("/health_check")
+	@GetMapping("/")
 	@ApiOperation(value = "Health check API")
 	public String healthCheck() {
 		return "OK";

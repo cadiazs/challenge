@@ -45,11 +45,11 @@ public class Alliance {
 		Map<String, Satellite> satellites = new HashMap<String, Satellite>();
 		Satellite satellite;
 
-		satellite = new Satellite("kenobi", new double[] { 200, -200 });
+		satellite = new Satellite("kenobi", new double[] { -500, -200 });
 		satellites.put(satellite.getName(), satellite);
-		satellite = new Satellite("skywalker", new double[] { 200, -800 });
+		satellite = new Satellite("skywalker", new double[] { 100, -100 });
 		satellites.put(satellite.getName(), satellite);
-		satellite = new Satellite("sato", new double[] { 800, -800 });
+		satellite = new Satellite("sato", new double[] { 500, 100 });
 		satellites.put(satellite.getName(), satellite);
 
 		return satellites;
