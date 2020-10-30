@@ -23,7 +23,7 @@ public class RestController {
 
 	@Autowired
 	private EntryMessageDAO entryMessageDAO;
-	
+
 	@GetMapping("/")
 	@ApiOperation(value = "Health check API")
 	public String healthCheck() {
@@ -31,7 +31,7 @@ public class RestController {
 	}
 
 	@PostMapping("/topsecret")
-	@ApiOperation(value = "Based on 3 message fragments, determines original message and its emitter localization.", notes = "Return original message and emitter X,Y coords" )
+	@ApiOperation(value = "Based on 3 message fragments, determines original message and its emitter localization.", notes = "Return original message and emitter X,Y coords")
 	public DiscoveredMessage locateShip(@RequestBody String topSecretMessageJson) {
 		JSONObject topSecretMessages = new JSONObject(topSecretMessageJson);
 		Alliance alliance = new Alliance(this.entryMessageDAO);
@@ -42,14 +42,14 @@ public class RestController {
 	@ApiOperation(value = "Receives a message fragment from a satellite")
 	public void stageMessage(@RequestBody EntryMessage entryMessage, @PathVariable("satellite") String satellite) {
 		Alliance alliance = new Alliance(this.entryMessageDAO);
-		alliance.receiveMessage( satellite, entryMessage);
+		alliance.receiveMessage(satellite, entryMessage);
 	}
 
 	@GetMapping("/topsecret_split")
 	@ApiOperation(value = "Retrieve original message and its emitter localization if 3 valid message fragments were provided through /topsecret split/{satellite}")
 	public DiscoveredMessage joinMessages() {
 		Alliance alliance = new Alliance(this.entryMessageDAO);
-		
+
 		if (alliance.buildMessages()) {
 			return alliance.getDiscoveredMessage();
 		} else {
@@ -57,7 +57,5 @@ public class RestController {
 			notEnoughInfo.setMessage("We do not have enough info for Imperial Ship localization");
 			return notEnoughInfo;
 		}
-
 	}
-
 }

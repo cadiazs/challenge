@@ -2,11 +2,8 @@ package com.challenge.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,8 +12,6 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Example;
 
@@ -220,17 +215,16 @@ public class Alliance {
 
 		try {
 			storedMessages = this.entryMessageDAO.findByUsed(false);
-			
-			for(int i=0; i<storedMessages.size(); i++) {
+
+			for (int i = 0; i < storedMessages.size(); i++) {
 				storedMessages.get(i).setUsed(true);
 				this.entryMessageDAO.save(storedMessages.get(i));
 			}
-			
+
 		} catch (Exception e) {
-//			throw new Exception("Unable to load received messages");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to use received messages");
 		}
-		
+
 		return this.discoveredMessage;
 	}
 
