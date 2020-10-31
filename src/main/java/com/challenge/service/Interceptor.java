@@ -51,7 +51,7 @@ public class Interceptor {
 		return msg;
 	}
 
-	private List<String> deleteDelay(List<String> msgToCheck, int minLen) {
+	public List<String> deleteDelay(List<String> msgToCheck, int minLen) {
 		List<String> msg = new ArrayList<>();
 
 		if (msgToCheck.size() > minLen) {

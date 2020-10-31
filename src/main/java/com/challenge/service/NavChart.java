@@ -19,7 +19,7 @@ public class NavChart {
 				&& NavChart.checkDistances(satelites.get("sato"), satelites.get("skywalker"));
 	}
 
-	private static boolean checkDistances(Satellite satA, Satellite satB) {
+	public static boolean checkDistances(Satellite satA, Satellite satB) {
 		boolean result = true;
 		double distance = NavChart.distanceSpaceships(satA, satB);
 
